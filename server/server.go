@@ -45,7 +45,9 @@ type deviceHandler struct {
 }
 
 func (h *deviceHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("content-type", "application/json")
+
 	switch {
 	case r.Method == http.MethodGet && listDevicesRe.MatchString(r.URL.Path):
 		h.List(w, r)

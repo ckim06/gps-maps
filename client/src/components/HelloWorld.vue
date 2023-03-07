@@ -11,6 +11,10 @@
 
       <h1 class="text-h2 font-weight-bold">Vuetify</h1>
 
+      <div v-for="device in getDevices">
+        {{ device.device_id }} 
+      </div>
+
       <div class="py-14" />
 
       <v-row class="d-flex align-center justify-center">
@@ -75,5 +79,13 @@
 </template>
 
 <script setup>
-  //
+import { ref, onMounted, computed } from "vue";
+  import { useAppStore } from '@/store/app';
+const store = useAppStore();
+const getDevices = computed(() => {
+  return store.getDevices;
+});
+  onMounted(() => {
+  store.fetchDevices();
+});
 </script>
