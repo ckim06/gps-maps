@@ -1,0 +1,4 @@
+server/keys.ini
+.vscode
+client/node_modules
+client/.yarn

@@ -1,0 +1,1 @@
+[{"device_id":"1","display_name":"first","latest_accurate_device_point":{"lat":"111","lng":"22222"},"device_ui_settings":{"device_id":"","is_visible":true,"icon":"cirlce"}},{"device_id":"2","display_name":"second","latest_accurate_device_point":{"lat":"3333","lng":"4444"},"device_ui_settings":{"device_id":"","is_visible":false,"icon":""}}]
