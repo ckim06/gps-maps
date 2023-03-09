@@ -28,6 +28,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         [null, {\
           "packageLocation": "./",\
           "packageDependencies": [\
+            ["@googlemaps/js-api-loader", "npm:1.15.1"],\
             ["@mdi/font", "npm:7.0.96"],\
             ["@vitejs/plugin-vue", "virtual:67bccc7d0bcfa1230f52b04f252953235f3247e8df364142a4b7724e7369b822323dc3148cf3825512a8c0b70e04e7501cbd67f5ac8193999d7bc7a9f219cccb#npm:3.2.0"],\
             ["axios", "npm:1.3.4"],\
@@ -135,6 +136,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@gar-promisify-npm-1.1.3-ac1a325862-4059f790e2.zip/node_modules/@gar/promisify/",\
           "packageDependencies": [\
             ["@gar/promisify", "npm:1.1.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@googlemaps/js-api-loader", [\
+        ["npm:1.15.1", {\
+          "packageLocation": "./.yarn/cache/@googlemaps-js-api-loader-npm-1.15.1-0c88d92d52-0f359c6703.zip/node_modules/@googlemaps/js-api-loader/",\
+          "packageDependencies": [\
+            ["@googlemaps/js-api-loader", "npm:1.15.1"],\
+            ["fast-deep-equal", "npm:3.1.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -699,6 +710,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",\
           "packageDependencies": [\
             ["client", "workspace:."],\
+            ["@googlemaps/js-api-loader", "npm:1.15.1"],\
             ["@mdi/font", "npm:7.0.96"],\
             ["@vitejs/plugin-vue", "virtual:67bccc7d0bcfa1230f52b04f252953235f3247e8df364142a4b7724e7369b822323dc3148cf3825512a8c0b70e04e7501cbd67f5ac8193999d7bc7a9f219cccb#npm:3.2.0"],\
             ["axios", "npm:1.3.4"],\
