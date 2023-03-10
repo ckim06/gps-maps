@@ -1,12 +1,10 @@
 <template>
-    asdf
-    <div id="map"></div>
+    <div id="map" class="h-screen v-screen"></div>
 </template>
 <script >
 import { Loader } from '@googlemaps/js-api-loader';
 
 export default {
-
     props: {
         mapConfig: Object,
         apiKey: String,
@@ -34,14 +32,17 @@ export default {
             try {
                 const google = await this.loader.load();
                 this.map = new google.maps.Map(document.getElementById("map"), this.mapConfig)
+                const bounds = new google.maps.LatLngBounds();
                 this.markers.forEach((location) => {
                     const marker = new google.maps.Marker({
                         position: {lat:location.lat, lng:location.lng},
                         map: this.map,
                     });
+                    bounds.extend(marker.position)
                     marker.setMap(this.map);
-                    this.map.
+                    
                 })
+                this.map.fitBounds(bounds);
             }
             catch (e) {
                 console.error(e)
@@ -50,9 +51,3 @@ export default {
     }
 }
 </script>
-<style>
-#map {
-    width: 200px;
-    height: 200px;
-}
-</style>

@@ -1,61 +1,56 @@
 <template>
-  <v-container class="fill-height">
-    <v-responsive class="d-flex align-center text-center fill-height">
+  <v-card>
+    <v-layout>
+      <v-navigation-drawer theme="dark" rail permanent>
+        <v-list-item nav prepend-avatar="https://randomuser.me/api/portraits/women/75.jpg"></v-list-item>
 
+        <v-divider></v-divider>
 
-      <div v-for="device in getDevices">
-        {{ device.device_id }}
-      </div>
+        <v-list density="compact" nav>
+          <v-list-item prepend-icon="mdi-view-dashboard" value="dashboard"></v-list-item>
 
-      <GoogleMapLoader :mapConfig="{
-    center: {
-      lat: 0,
-      lng: 0
-    },
-    zoom: 4
-  }" apiKey="AIzaSyCao8Qkxu-lc3_Xywqg3kLfI2umRAwkmVs" :markers="getMarkers"></GoogleMapLoader>
+          <v-list-item prepend-icon="mdi-forum" value="messages"></v-list-item>
+        </v-list>
+      </v-navigation-drawer>
+      <DeviceList v-if="dataReady" :devices="getDevices"></DeviceList>
 
-      <div class="py-14" />
-
-      <v-row class="d-flex align-center justify-center">
-        <v-col cols="auto">
-
-        </v-col>
-
-        <v-col cols="auto">
-
-        </v-col>
-
-        <v-col cols="auto">
-
-        </v-col>
-      </v-row>
-    </v-responsive>
-  </v-container>
+      <v-main>
+        <GoogleMapLoader :mapConfig="{}" apiKey="AIzaSyCao8Qkxu-lc3_Xywqg3kLfI2umRAwkmVs" :markers="getMarkers">
+        </GoogleMapLoader>
+      </v-main>
+    </v-layout>
+  </v-card>
 </template>
 
 <script >
 
 import { useAppStore } from '@/store/app';
 import GoogleMapLoader from './GoogleMapLoader.vue'
+import DeviceList from './DeviceList.vue'
 const store = useAppStore();
 
 export default {
   components: {
-    GoogleMapLoader
+    GoogleMapLoader,
+    DeviceList
   },
-  mounted() {
-    store.fetchDevices();
+  data() {
+    return {
+      dataReady: false,
+    }
+  },
+  async mounted() {
+    await store.fetchDevices();
+    this.dataReady = true
   },
   computed: {
     getDevices() {
       return store.getDevices
     },
-  getMarkers(){
-    return store.getMarkers
+    getMarkers() {
+      return store.getMarkers
+    }
   }
-  }
-
 }
 
 

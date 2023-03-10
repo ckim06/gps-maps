@@ -10,8 +10,10 @@ export const useAppStore = defineStore('app', {
       return state.devices
     },
     getMarkers(state) {
-      return state.devices.map((device) => device.latest_accurate_device_point);
-    }
+      return state.devices
+        .filter((device) => device.latest_accurate_device_point.lat !== 0 && device.latest_accurate_device_point.lng !== 0)
+        .map((device) => device.latest_accurate_device_point)
+    },
   },
   actions: {
     async fetchDevices() {
@@ -24,6 +26,7 @@ export const useAppStore = defineStore('app', {
       }
     }
   },
+
 })
 
 
