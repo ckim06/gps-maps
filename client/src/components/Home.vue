@@ -15,8 +15,8 @@
       <DeviceList v-if="dataReady" :devices="getDevices"></DeviceList>
 
       <v-main>
-        <GoogleMapLoader :mapConfig="{}" apiKey="AIzaSyCao8Qkxu-lc3_Xywqg3kLfI2umRAwkmVs" :markers="getMarkers">
-        </GoogleMapLoader>
+        <GoogleMap :markers="getMarkers">
+        </GoogleMap>
       </v-main>
     </v-layout>
   </v-card>
@@ -25,13 +25,13 @@
 <script >
 
 import { useAppStore } from '@/store/app';
-import GoogleMapLoader from './GoogleMapLoader.vue'
+import GoogleMap from './GoogleMap.vue'
 import DeviceList from './DeviceList.vue'
 const store = useAppStore();
 
 export default {
   components: {
-    GoogleMapLoader,
+    GoogleMap,
     DeviceList
   },
   data() {

@@ -28,7 +28,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         [null, {\
           "packageLocation": "./",\
           "packageDependencies": [\
-            ["@googlemaps/js-api-loader", "npm:1.15.1"],\
+            ["@fawmi/vue-google-maps", "npm:0.9.67"],\
             ["@mdi/font", "npm:7.0.96"],\
             ["@vitejs/plugin-vue", "virtual:67bccc7d0bcfa1230f52b04f252953235f3247e8df364142a4b7724e7369b822323dc3148cf3825512a8c0b70e04e7501cbd67f5ac8193999d7bc7a9f219cccb#npm:3.2.0"],\
             ["axios", "npm:1.3.4"],\
@@ -131,6 +131,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@fawmi/vue-google-maps", [\
+        ["npm:0.9.67", {\
+          "packageLocation": "./.yarn/cache/@fawmi-vue-google-maps-npm-0.9.67-010eafef4b-4bf15feef3.zip/node_modules/@fawmi/vue-google-maps/",\
+          "packageDependencies": [\
+            ["@fawmi/vue-google-maps", "npm:0.9.67"],\
+            ["@googlemaps/markerclustererplus", "npm:1.2.10"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@gar/promisify", [\
         ["npm:1.1.3", {\
           "packageLocation": "./.yarn/cache/@gar-promisify-npm-1.1.3-ac1a325862-4059f790e2.zip/node_modules/@gar/promisify/",\
@@ -140,12 +150,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["@googlemaps/js-api-loader", [\
-        ["npm:1.15.1", {\
-          "packageLocation": "./.yarn/cache/@googlemaps-js-api-loader-npm-1.15.1-0c88d92d52-0f359c6703.zip/node_modules/@googlemaps/js-api-loader/",\
+      ["@googlemaps/markerclustererplus", [\
+        ["npm:1.2.10", {\
+          "packageLocation": "./.yarn/cache/@googlemaps-markerclustererplus-npm-1.2.10-c63ffabbc3-14e882db8c.zip/node_modules/@googlemaps/markerclustererplus/",\
           "packageDependencies": [\
-            ["@googlemaps/js-api-loader", "npm:1.15.1"],\
-            ["fast-deep-equal", "npm:3.1.3"]\
+            ["@googlemaps/markerclustererplus", "npm:1.2.10"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -710,7 +719,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",\
           "packageDependencies": [\
             ["client", "workspace:."],\
-            ["@googlemaps/js-api-loader", "npm:1.15.1"],\
+            ["@fawmi/vue-google-maps", "npm:0.9.67"],\
             ["@mdi/font", "npm:7.0.96"],\
             ["@vitejs/plugin-vue", "virtual:67bccc7d0bcfa1230f52b04f252953235f3247e8df364142a4b7724e7369b822323dc3148cf3825512a8c0b70e04e7501cbd67f5ac8193999d7bc7a9f219cccb#npm:3.2.0"],\
             ["axios", "npm:1.3.4"],\

@@ -12,9 +12,13 @@ import { createApp } from 'vue'
 
 // Plugins
 import { registerPlugins } from '@/plugins'
-
+import VueGoogleMaps from '@fawmi/vue-google-maps'
+import { mapKey } from '../mapkey'
 const app = createApp(App)
 
 registerPlugins(app)
-
-app.mount('#app')
+app.use(VueGoogleMaps, {
+    load: {
+        key: mapKey,
+    },
+}).mount('#app')

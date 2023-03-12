@@ -3,3 +3,4 @@ server/__debug_bin
 .vscode
 client/node_modules
 client/.yarn
+client/mapkey.js

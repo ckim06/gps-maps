@@ -77,6 +77,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fawmi/vue-google-maps@npm:0.9.67":
+  version: 0.9.67
+  resolution: "@fawmi/vue-google-maps@npm:0.9.67"
+  dependencies:
+    "@googlemaps/markerclustererplus": ^1.2.10
+  checksum: 4bf15feef383139e64357bc51bd3133bdfcf71b357be61d3ad3cdd2e2e1f783009abab4257955fe280ae0d7c1cd4945202b28b8092519ba23871085336b40577
+  languageName: node
+  linkType: hard
+
 "@gar/promisify@npm:^1.1.3":
   version: 1.1.3
   resolution: "@gar/promisify@npm:1.1.3"
@@ -84,12 +93,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@googlemaps/js-api-loader@npm:^1.15.1":
-  version: 1.15.1
-  resolution: "@googlemaps/js-api-loader@npm:1.15.1"
-  dependencies:
-    fast-deep-equal: ^3.1.3
-  checksum: 0f359c6703116eee926afcf044be419358aee0c34d597c394f5b543ab8b6fb19a90a631f9bcb22e457605edfa08b5f6a29856149e63c4c9305be848d913ec013
+"@googlemaps/markerclustererplus@npm:^1.2.10":
+  version: 1.2.10
+  resolution: "@googlemaps/markerclustererplus@npm:1.2.10"
+  checksum: 14e882db8cffbae057abc58a4db0467172e74b96b09cf564b295911f8406c336780b2628311d58d736e59e11fe9a17d8a5ce5660a445bf8d76015bf18cdfc732
   languageName: node
   linkType: hard
 
@@ -540,7 +547,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "client@workspace:."
   dependencies:
-    "@googlemaps/js-api-loader": ^1.15.1
+    "@fawmi/vue-google-maps": 0.9.67
     "@mdi/font": 7.0.96
     "@vitejs/plugin-vue": ^3.0.3
     axios: ^1.3.4
