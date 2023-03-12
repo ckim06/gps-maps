@@ -13,7 +13,7 @@ import { createApp } from 'vue'
 // Plugins
 import { registerPlugins } from '@/plugins'
 import VueGoogleMaps from '@fawmi/vue-google-maps'
-import { mapKey } from '../mapkey'
+import  mapKey  from '../mapkey'
 const app = createApp(App)
 
 registerPlugins(app)
