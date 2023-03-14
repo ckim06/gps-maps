@@ -27,7 +27,7 @@ export const useAppStore = defineStore('app', {
     async saveDevice(device) {
       try {
         const data = await axios.put(`http://localhost:8080/devices/${device.device_id}`, device)
-        this.devices = data.data
+        
       }
       catch (error) {
         console.log(error)

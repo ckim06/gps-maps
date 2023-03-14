@@ -10,7 +10,7 @@ const props = defineProps({
 const emit = defineEmits(['save'])
 
 const onSaveDeviceNotes = (value) => {
-    const device = this.device
+    const device = props.device
     device.device_ui_settings.notes = value
     const resp = store.saveDevice(device);
 

@@ -13,7 +13,9 @@ onMounted(() => {
     localValue.value = props.value
 })
 
-
+const edit = () => {
+    editable.value = true
+}
 const save = () => {
     emit("save", localValue.value)
     editable.value = false
@@ -24,11 +26,14 @@ const cancel = () => {
 
 </script>
 <template>
-    <span>{{ localValue }}</span>
-    <v-text-field v-model="localValue" variant="solo">
-        <template v-slot:append>
-            <v-btn variant="plain" icon="mdi-checkbox-marked" @click="save"></v-btn>
+    <div v-if="!editable">
+        <span >{{ localValue }}</span>
+        <v-btn variant="plain" icon="mdi-pencil" @click="edit"></v-btn>
+    </div>
 
+    <v-text-field v-if="editable" v-model="localValue" variant="solo">
+        <template v-slot:append>
+            <v-btn variant="plain" icon="mdi-check" @click="save"></v-btn>
             <v-btn icon="mdi-cancel" variant="plain" @click="cancel"></v-btn>
         </template>
     </v-text-field>
