@@ -4,7 +4,7 @@ import DeviceDetails from './DeviceDetails.vue'
 
 const props = defineProps({
     markers: Object,
-    deviceFromList:Object
+    deviceFromList: Object
 })
 let mapObj;
 const gmap = ref(0)
@@ -30,7 +30,7 @@ const markerClick = (marker) => {
         nextTick(() => {
             openWindow.value = marker.device_id
         });
-        
+
     }
 
 }
@@ -41,7 +41,6 @@ watch(() => props.deviceFromList, (currentValue, oldValue) => {
 
 </script>
 <template>
-   
     <GMapMap :options="{
         zoomControl: true,
         mapTypeControl: false,
