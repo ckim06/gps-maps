@@ -1,3 +1,23 @@
+
+<script setup>
+import { ref, onMounted ,computed} from 'vue'
+import { useAppStore } from '@/store/app';
+import GoogleMap from './GoogleMap.vue'
+import DeviceList from './DeviceList.vue'
+const store = useAppStore();
+let dataReady = ref(false)
+onMounted(async () => {
+  await store.fetchDevices();
+  dataReady.value = true
+})
+const getDevices = computed(() => {
+  return store.getDevices
+})
+const getMarkers = computed(() => {
+  return store.getMarkers
+})
+
+</script>
 <template>
   <v-card>
     <v-layout>
@@ -12,7 +32,7 @@
           <v-list-item prepend-icon="mdi-forum" value="messages"></v-list-item>
         </v-list>
       </v-navigation-drawer>
-      <DeviceList v-if="dataReady" :devices="getDevices"></DeviceList>
+      <DeviceList :v-if="dataReady" :devices="getDevices"></DeviceList>
 
       <v-main>
         <GoogleMap :markers="getMarkers">
@@ -21,37 +41,3 @@
     </v-layout>
   </v-card>
 </template>
-
-<script >
-
-import { useAppStore } from '@/store/app';
-import GoogleMap from './GoogleMap.vue'
-import DeviceList from './DeviceList.vue'
-const store = useAppStore();
-
-export default {
-  components: {
-    GoogleMap,
-    DeviceList
-  },
-  data() {
-    return {
-      dataReady: false,
-    }
-  },
-  async mounted() {
-    await store.fetchDevices();
-    this.dataReady = true
-  },
-  computed: {
-    getDevices() {
-      return store.getDevices
-    },
-    getMarkers() {
-      return store.getMarkers
-    }
-  }
-}
-
-
-</script>

@@ -13,13 +13,14 @@ import (
 //go:embed keys.ini
 var apiKey string
 var (
-	listDevicesRe  = regexp.MustCompile(`^\/devices[\/]*$`)
-	updateDeviceRe = regexp.MustCompile(`^\/devices\/(\d+)$`)
+	listDevicesRe  = regexp.MustCompile(`^\/devices[\/]$`)
+	updateDeviceRe = regexp.MustCompile(`^\/devices\/(.+)$`)
 )
 
 type Location struct {
-	Lat json.Number `json:"lat"`
-	Lng json.Number `json:"lng"`
+	Lat          json.Number `json:"lat"`
+	Lng          json.Number `json:"lng"`
+	Device_state DeviceState `json:"device_state"`
 }
 type DeviceResponse struct {
 	Result_list []Device
@@ -31,9 +32,12 @@ type Device struct {
 	Device_ui_settings           DeviceSettings `json:"device_ui_settings"`
 }
 type DeviceSettings struct {
-	Device_id  string `json:"device_id"`
-	Is_visible bool   `json:"is_visible"`
-	Icon       string `json:"icon"`
+	Is_visible  bool   `json:"is_visible"`
+	Notes       string `json:"notes"`
+	PhoneNumber string `json:"phone_number"`
+}
+type DeviceState struct {
+	Drive_status string `json:"drive_status"`
 }
 type datastore struct {
 	m map[string]Device
@@ -45,16 +49,20 @@ type deviceHandler struct {
 }
 
 func (h *deviceHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Methods", "GET, PUT, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("content-type", "application/json")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
 
 	switch {
 	case r.Method == http.MethodGet && listDevicesRe.MatchString(r.URL.Path):
+		w.Header().Set("content-type", "application/json")
 		h.List(w, r)
 		return
 	case r.Method == http.MethodPut && updateDeviceRe.MatchString(r.URL.Path):
 		h.Update(w, r)
 		return
+	case r.Method == http.MethodOptions:
+		w.WriteHeader(http.StatusOK)
 	default:
 		notFound(w, r)
 		return
