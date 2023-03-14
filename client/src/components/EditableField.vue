@@ -4,6 +4,7 @@ import { ref, onMounted } from 'vue'
 
 const props = defineProps({
     value: String,
+    emptyMessage:String
 })
 const emit = defineEmits(['save'])
 let editable = ref(false)
@@ -26,15 +27,21 @@ const cancel = () => {
 
 </script>
 <template>
-    <div v-if="!editable">
-        <span >{{ localValue }}</span>
-        <v-btn variant="plain" icon="mdi-pencil" @click="edit"></v-btn>
+    <div class="textarea-clickable" v-if="!editable" @click="edit">
+        <span :v-if="localValue" >{{ localValue  }}</span>
+        <span class="font-italic" :v-if="!localValue" >{{ emptyMessage  }}</span>
+        <v-btn variant="plain" icon="mdi-pencil"></v-btn>
     </div>
 
-    <v-text-field v-if="editable" v-model="localValue" variant="solo">
+    <v-textarea v-if="editable" v-model="localValue" variant="solo">
         <template v-slot:append>
             <v-btn variant="plain" icon="mdi-check" @click="save"></v-btn>
             <v-btn icon="mdi-cancel" variant="plain" @click="cancel"></v-btn>
         </template>
-    </v-text-field>
+    </v-textarea>
 </template>
+<style scoped>
+.textarea-clickable{
+    cursor: pointer;
+}
+</style>

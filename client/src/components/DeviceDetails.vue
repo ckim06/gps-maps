@@ -20,7 +20,7 @@ const onSaveDeviceNotes = (value) => {
 <template>
     <v-card :title="device.display_name" width="400" :subtitle="device.latest_accurate_device_point.drive_status">
         <v-card-text>
-            <EditableField :value="device.device_ui_settings.notes" @save="onSaveDeviceNotes"></EditableField>
+            <EditableField emptyMessage="Enter Notes" :value="device.device_ui_settings.notes" @save="onSaveDeviceNotes"></EditableField>
         </v-card-text>
     </v-card>
 </template>

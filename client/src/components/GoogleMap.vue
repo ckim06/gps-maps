@@ -1,9 +1,10 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch, nextTick } from 'vue'
 import DeviceDetails from './DeviceDetails.vue'
 
 const props = defineProps({
     markers: Object,
+    deviceFromList:Object
 })
 let mapObj;
 const gmap = ref(0)
@@ -21,14 +22,26 @@ onMounted(() => {
 })
 
 const markerClick = (marker) => {
-    mapObj.setCenter(marker.latest_accurate_device_point)
-    mapObj.setZoom(15)
-    openWindow.value = marker.device_id
-}
+    if (!marker) {
+        openWindow.value = null;
+    } else {
+        mapObj.setCenter(marker.latest_accurate_device_point)
+        mapObj.setZoom(15)
+        nextTick(() => {
+            openWindow.value = marker.device_id
+        });
+        
+    }
 
+}
+watch(() => props.deviceFromList, (currentValue, oldValue) => {
+    openWindow.value = null
+    markerClick(currentValue)
+})
 
 </script>
 <template>
+   
     <GMapMap :options="{
         zoomControl: true,
         mapTypeControl: false,
@@ -37,8 +50,9 @@ const markerClick = (marker) => {
         rotateControl: false,
         fullscreenControl: false
     }" :center="{ lat: 0, lng: 0 }" :zoom="7" ref="gmap" class="h-screen v-screen">
-        <GMapMarker v-for="marker in markers" :position="marker.latest_accurate_device_point" @click="markerClick(marker)">
-            <GMapInfoWindow :opened="openWindow === marker.device_id">
+        <GMapMarker :key="index" v-for="(marker, index) in markers" :position="marker.latest_accurate_device_point"
+            @closeclick="markerClick()" @click="markerClick(marker)">
+            <GMapInfoWindow :closeclick="true" @closeclick="markerClick()" :opened="openWindow === marker.device_id">
                 <div>
                     <DeviceDetails :device="marker"></DeviceDetails>
                 </div>

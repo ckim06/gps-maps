@@ -6,6 +6,8 @@ import GoogleMap from './GoogleMap.vue'
 import DeviceList from './DeviceList.vue'
 const store = useAppStore();
 let dataReady = ref(false)
+let clickedDevice = ref(null)
+
 onMounted(async () => {
   await store.fetchDevices();
   dataReady.value = true
@@ -16,6 +18,10 @@ const getDevices = computed(() => {
 const getMarkers = computed(() => {
   return store.getMarkers
 })
+
+const onListClick = (device) => {
+  clickedDevice.value = device
+}
 
 </script>
 <template>
@@ -32,10 +38,10 @@ const getMarkers = computed(() => {
           <v-list-item prepend-icon="mdi-forum" value="messages"></v-list-item>
         </v-list>
       </v-navigation-drawer>
-      <DeviceList :v-if="dataReady" :devices="getDevices"></DeviceList>
+      <DeviceList :v-if="dataReady" :devices="getDevices" @listClick="onListClick"></DeviceList>
 
       <v-main>
-        <GoogleMap :markers="getMarkers">
+        <GoogleMap :markers="getMarkers" :deviceFromList="clickedDevice">
         </GoogleMap>
       </v-main>
     </v-layout>
