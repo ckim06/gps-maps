@@ -42,9 +42,9 @@ const getOfflineDevices = computed(() => {
 }
 
 .stripe-red {
-    border-left: red 5px solid;
+    border-left: #bb1e10 5px solid;
 }
 
 .stripe-green {
-    border-left: green 5px solid;
+    border-left: #57E964 5px solid;
 }</style>
