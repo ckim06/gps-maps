@@ -5,8 +5,10 @@ import (
 	"encoding/json"
 	"io"
 	"log"
+	"math/rand"
 	"net/http"
 	"regexp"
+	"strconv"
 	"sync"
 )
 
@@ -28,6 +30,7 @@ type DeviceResponse struct {
 type Device struct {
 	Device_id                    string         `json:"device_id"`
 	Display_name                 string         `json:"display_name"`
+	User_avatar                  string         `json:"user_avatar"`
 	Latest_accurate_device_point Location       `json:"latest_accurate_device_point"`
 	Device_ui_settings           DeviceSettings `json:"device_ui_settings"`
 }
@@ -151,7 +154,16 @@ func main() {
 
 	devices := UnmarshalDevices(devicesResponse)
 	var mappedDevices = make(map[string]Device)
+
+	genders := []string{
+		"women",
+		"men",
+	}
 	for _, device := range devices {
+
+		gender := genders[rand.Intn(2)]
+
+		device.User_avatar = "https://randomuser.me/api/portraits/" + gender + "/" + strconv.Itoa(rand.Intn(100)) + ".jpg"
 		mappedDevices[device.Device_id] = device
 	}
 
