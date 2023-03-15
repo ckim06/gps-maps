@@ -22,15 +22,15 @@ const getOfflineDevices = computed(() => {
             <v-list-item
                 :class="[d.latest_accurate_device_point.device_state.drive_status === 'off' ? 'stripe-red' : 'stripe-green']"
                 v-for="d in getOnlineDevices" :prepend-avatar="d.user_avatar" :title="d.display_name" :value="d.device_id"
-                @click="emit('listClick', device)">
+                @click="emit('listClick', d)">
 
                 <template v-slot:append>
                     <v-btn icon="mdi-eye" variant="plain"></v-btn>
                 </template>
             </v-list-item>
             <v-list-subheader>Offline devices</v-list-subheader>
-            <v-list-item disabled v-for="device in getOfflineDevices" :prepend-avatar="device.user_avatar"
-                :title="device.display_name" :value="device.device_id" @click="emit('listClick', device)">
+            <v-list-item disabled v-for="d in getOfflineDevices" :prepend-avatar="d.user_avatar"
+                :title="d.display_name" :value="d.device_id">
 
             </v-list-item>
         </v-list>

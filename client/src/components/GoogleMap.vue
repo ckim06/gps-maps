@@ -26,7 +26,7 @@ const markerClick = (marker) => {
         openWindow.value = null;
     } else {
         mapObj.setCenter(marker.latest_accurate_device_point)
-        mapObj.setZoom(15)
+        mapObj.setZoom(10)
         nextTick(() => {
             openWindow.value = marker.device_id
         });
