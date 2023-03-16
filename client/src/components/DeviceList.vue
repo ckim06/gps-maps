@@ -20,7 +20,7 @@ watch(() => props.highlightedDevice, (currentValue) => {
 
     setTimeout(() => {
         highlightedDeviceLocal.value = null
-    }, 2000);
+    }, 500);
 })
 
 
