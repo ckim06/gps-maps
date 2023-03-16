@@ -8,7 +8,8 @@ const store = useAppStore()
 let dataReady = ref(false)
 let clickedDevice = ref(null)
 let selectedRail = ref('devices')
-
+let showFitCenterBtn = ref(false)
+let highlightedDevice = ref(null)
 onMounted(async () => {
   await store.fetchDevices()
   dataReady.value = true
@@ -24,9 +25,14 @@ const onListClick = (device) => {
   clickedDevice.value = device
 }
 
+const onMarkerOver = (device) => {
+  highlightedDevice.value = device
+}
+
 const onToggleVisibility = async (device) => {
   device.device_ui_settings.is_hidden = !device.device_ui_settings.is_hidden
   const resp = await store.saveDevice(device)
+  showFitCenterBtn.value = !showFitCenterBtn.value
 }
 </script>
 <template>
@@ -35,7 +41,7 @@ const onToggleVisibility = async (device) => {
       <v-system-bar>
         <v-icon icon="mdi-menu"></v-icon>
       </v-system-bar>
-      <v-navigation-drawer theme="dark" rail class="primary-rail" mobile-breakpoint="sm-and-down" location="bottom">
+      <v-navigation-drawer theme="dark" rail class="primary-rail" location="bottom">
         <v-divider></v-divider>
         <v-list nav>
           <v-list-item prepend-icon="mdi-devices" @click="selectedRail = 'devices'" value="Devices"></v-list-item>
@@ -47,7 +53,7 @@ const onToggleVisibility = async (device) => {
       </v-navigation-drawer>
       <v-navigation-drawer class="secondary-nav-drawer" location="bottom">
         <v-list v-if="selectedRail === 'devices'">
-          <DeviceList :devices="getDevices" @listClick="onListClick" @toggleVisibility="onToggleVisibility"></DeviceList>
+          <DeviceList :devices="getDevices" @listClick="onListClick" :highlightedDevice="highlightedDevice" @toggleVisibility="onToggleVisibility"></DeviceList>
         </v-list>
 
         <v-list v-if="selectedRail === 'history'">
@@ -67,7 +73,8 @@ const onToggleVisibility = async (device) => {
 
 
       <v-main class="h-screen v-screen">
-        <GoogleMap :markers="getMarkers" :deviceFromList="clickedDevice">
+        <GoogleMap :markers="getMarkers" :selectedDevice="clickedDevice" :showFitCenterBtn="showFitCenterBtn"
+          @markerOver="onMarkerOver">
         </GoogleMap>
       </v-main>
     </v-layout>
@@ -83,32 +90,27 @@ const onToggleVisibility = async (device) => {
     display: flex;
     flex-wrap: wrap;
 
-    .v-list-item{
+    .v-list-item {
       flex-basis: 50%;
-      
+
     }
 
-    .v-list-subheader{
+    .v-list-subheader {
       flex: 0 0 100%;
       padding: 20px 0;
     }
   }
 }
-:deep(.primary-rail.v-navigation-drawer--bottom){
+
+:deep(.primary-rail.v-navigation-drawer--bottom) {
   .v-list {
     display: flex;
     flex-wrap: wrap;
 
-    .v-list-item{
+    .v-list-item {
       flex-basis: 20%;
       justify-content: center;
     }
   }
 }
-
-// @media #{map-get($display-breakpoints, 'sm-and-down')} {
-//     .custom-class {
-//         display: block;
-//     }
-// }
 </style>

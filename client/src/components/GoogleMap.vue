@@ -4,16 +4,21 @@ import DeviceDetails from './DeviceDetails.vue'
 
 const props = defineProps({
     markers: Object,
-    deviceFromList: Object
+    selectedDevice: Object,
+    showFitCenterBtn:Boolean
 })
 let mapObj
 const gmap = ref(0)
 let openWindows = ref({})
+let showFitCenterBtnLocal = ref(false);
+
+const emit = defineEmits(['markerOver'])
 
 const getMarkers = computed(() => {
     return props.markers.filter((m) => !m.device_ui_settings.is_hidden)
 })
 onMounted(() => {
+    showFitCenterBtnLocal.value = props.showFitCenterBtn;
     gmap.value.$mapPromise.then((mapObject) => {
         mapObj = mapObject
         fitMarkerBounds()
@@ -29,8 +34,8 @@ const fitMarkerBounds = () => {
                 bounds.extend(marker.latest_accurate_device_point)
             })
         gmap.value.fitBounds(bounds)
+        showFitCenterBtnLocal.value = false
     }
-
 }
 const close = (deviceId) => {
     openWindows.value[deviceId] = false
@@ -44,14 +49,25 @@ const markerClick = (marker) => {
         });
     }
 }
-watch(() => props.deviceFromList, (currentValue, oldValue) => {
+watch(() => props.selectedDevice, (currentValue) => {
     openWindows.value[currentValue.device_id] = null
     markerClick(currentValue)
 })
-
+watch(() => props.showFitCenterBtn, (currentValue) => {
+    showFitCenterBtnLocal.value = true
+})
 
 </script>
 <template>
+    <v-snackbar v-model="showFitCenterBtnLocal" timeout="2000">
+        <v-btn variant="text" @click="fitMarkerBounds">Recenter around visible devices </v-btn>
+
+        <template v-slot:actions>
+            <v-btn icon="mdi-close" variant="text" @click="showFitCenterBtnLocal = false">
+
+            </v-btn>
+        </template>
+    </v-snackbar>
     <GMapMap :options="{
         zoomControl: true,
         mapTypeControl: false,
@@ -61,7 +77,7 @@ watch(() => props.deviceFromList, (currentValue, oldValue) => {
         fullscreenControl: false
     }" :center="{ lat: 0, lng: 0 }" :zoom="7" ref="gmap" class="map">
         <GMapMarker :key="index" v-for="(marker, index) in getMarkers" :position="marker.latest_accurate_device_point"
-            @click="markerClick(marker)" @closeclick="close(marker.device_id)">
+            @click="markerClick(marker)" @closeclick="close(marker.device_id)"  @mouseover="emit('markerOver', marker)">
             <GMapInfoWindow :closeclick="true" @closeclick="close(marker.device_id)"
                 :opened="openWindows[marker.device_id] ?? false">
                 <div>
@@ -72,8 +88,8 @@ watch(() => props.deviceFromList, (currentValue, oldValue) => {
     </GMapMap>
 </template>
 <style scoped>
-.map{
-    height:100%;
+.map {
+    height: 100%;
     width: 100%;
 }
 </style>

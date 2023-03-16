@@ -1,17 +1,26 @@
 
 <script setup>
 
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 const props = defineProps({
     devices: Object,
+    highlightedDevice:Object
 })
-const emit = defineEmits(['listClick', 'toggleVisiblity'])
+let highlightedDeviceLocal = ref(null)
+const emit = defineEmits(['listClick', 'toggleVisibility'])
 
 const getOnlineDevices = computed(() => {
     return props.devices.filter((d) => d.latest_accurate_device_point.lat !== 0 && d.latest_accurate_device_point.lat !== 0)
 })
 const getOfflineDevices = computed(() => {
     return props.devices.filter((d) => d.latest_accurate_device_point.lat === 0 && d.latest_accurate_device_point.lat === 0)
+})
+watch(() => props.highlightedDevice, (currentValue) => {
+    highlightedDeviceLocal.value = currentValue
+
+    setTimeout(() => {
+        highlightedDeviceLocal.value = null
+    }, 2000);
 })
 
 
@@ -20,11 +29,13 @@ const getOfflineDevices = computed(() => {
     <v-list-item :class="{
         'stripe-red': d.latest_accurate_device_point.device_state.drive_status === 'off',
         'stripe-yellow': d.latest_accurate_device_point.device_state.drive_status === 'idle',
-        'stripe-green': d.latest_accurate_device_point.device_state.drive_status !== 'off' && d.latest_accurate_device_point.device_state.drive_status !== 'idle'
+        'stripe-green': d.latest_accurate_device_point.device_state.drive_status !== 'off' && d.latest_accurate_device_point.device_state.drive_status !== 'idle',
+        'highlighted' : d.device_id === highlightedDeviceLocal?.device_id
     }" v-for="d in getOnlineDevices" :prepend-avatar="d.user_avatar" :value="d.device_id"
         @click="emit('listClick', d)" :subtitle="d.latest_accurate_device_point.device_state.drive_status">
         <template v-slot:title>
             {{ d.display_name }}
+            
             <v-btn :icon="d.device_ui_settings.is_hidden ? 'mdi-eye-off' : 'mdi-eye'" size="small"
                 @click.stop="emit('toggleVisibility', d)" variant="plain"></v-btn>
         </template>
@@ -48,5 +59,8 @@ const getOfflineDevices = computed(() => {
 
 .stripe-green {
     border-left: #57E964 5px solid;
+}
+.highlighted {
+    background: rgba(0,0,0,.08);
 }
 </style>
