@@ -20,14 +20,24 @@ export default createVuetify({
       mdi,
     }
   },
-  theme: {
-    themes: {
-      light: {
-        colors: {
-          primary: '#1867C0',
-          secondary: '#5CBBF6',
+  display: {
+    mobileBreakpoint: 'sm',
+    thresholds: {
+      xs: 0,
+      sm: 340,
+      md: 540,
+      lg: 800,
+      xl: 1280,
+    },
+  },
+    theme: {
+      themes: {
+        light: {
+          colors: {
+            primary: '#1867C0',
+            secondary: '#5CBBF6',
+          },
         },
       },
     },
-  },
-})
+  })

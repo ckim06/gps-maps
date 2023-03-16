@@ -59,7 +59,7 @@ watch(() => props.deviceFromList, (currentValue, oldValue) => {
         streetViewControl: false,
         rotateControl: false,
         fullscreenControl: false
-    }" :center="{ lat: 0, lng: 0 }" :zoom="7" ref="gmap" class="h-screen v-screen">
+    }" :center="{ lat: 0, lng: 0 }" :zoom="7" ref="gmap" class="map">
         <GMapMarker :key="index" v-for="(marker, index) in getMarkers" :position="marker.latest_accurate_device_point"
             @click="markerClick(marker)" @closeclick="close(marker.device_id)">
             <GMapInfoWindow :closeclick="true" @closeclick="close(marker.device_id)"
@@ -71,3 +71,9 @@ watch(() => props.deviceFromList, (currentValue, oldValue) => {
         </GMapMarker>
     </GMapMap>
 </template>
+<style scoped>
+.map{
+    height:100%;
+    width: 100%;
+}
+</style>

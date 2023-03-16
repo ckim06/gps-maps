@@ -33,39 +33,82 @@ const onToggleVisibility = async (device) => {
   <v-card>
     <v-layout>
       <v-system-bar>
-        <v-icon icon="mdi-menu" class="ms-2"></v-icon>
+        <v-icon icon="mdi-menu"></v-icon>
       </v-system-bar>
-      <v-navigation-drawer theme="dark" rail permanent>
+      <v-navigation-drawer theme="dark" rail class="primary-rail" mobile-breakpoint="sm-and-down" location="bottom">
         <v-divider></v-divider>
         <v-list nav>
-          <v-list-item  prepend-icon="mdi-devices" @click="selectedRail = 'devices'" value="Devices"></v-list-item>
+          <v-list-item prepend-icon="mdi-devices" @click="selectedRail = 'devices'" value="Devices"></v-list-item>
           <v-list-item prepend-icon="mdi-history" @click="selectedRail = 'history'" value="History"></v-list-item>
           <v-list-item prepend-icon="mdi-map-marker" @click="selectedRail = 'places'" value="Places"></v-list-item>
           <v-list-item prepend-icon="mdi-bell-outline" @click="selectedRail = 'alerts'" value="Alerts"></v-list-item>
           <v-list-item prepend-icon="mdi-clipboard" @click="selectedRail = 'reports'" value="Reports"></v-list-item>
         </v-list>
       </v-navigation-drawer>
-      <v-navigation-drawer app permanent>
+      <v-navigation-drawer class="secondary-nav-drawer" location="bottom">
         <v-list v-if="selectedRail === 'devices'">
           <DeviceList :devices="getDevices" @listClick="onListClick" @toggleVisibility="onToggleVisibility"></DeviceList>
         </v-list>
- 
-        <v-list v-if="selectedRail === 'history'"><h3>History</h3>Out of scope</v-list>
-        <v-list v-if="selectedRail === 'places'"><h3>Places</h3>Out of scope</v-list>
-        <v-list v-if="selectedRail === 'alerts'"><h3>Alerts</h3>Out of scope</v-list>
-        <v-list v-if="selectedRail === 'reports'"><h3>Reports</h3>Out of scope</v-list>
+
+        <v-list v-if="selectedRail === 'history'">
+          <h3>History</h3>Out of scope
+        </v-list>
+        <v-list v-if="selectedRail === 'places'">
+          <h3>Places</h3>Out of scope
+        </v-list>
+        <v-list v-if="selectedRail === 'alerts'">
+          <h3>Alerts</h3>Out of scope
+        </v-list>
+        <v-list v-if="selectedRail === 'reports'">
+          <h3>Reports</h3>Out of scope
+        </v-list>
 
       </v-navigation-drawer>
 
-   
-      <v-main>
+
+      <v-main class="h-screen v-screen">
         <GoogleMap :markers="getMarkers" :deviceFromList="clickedDevice">
         </GoogleMap>
       </v-main>
     </v-layout>
   </v-card>
 </template>
-<style scoped>
-.v-list {
-    padding: 0;
-}</style>
+<style lang="scss" scoped>
+.secondary-nav-drawer .v-list {
+  padding: 0;
+}
+
+:deep(.secondary-nav-drawer.v-navigation-drawer--bottom) {
+  .v-list {
+    display: flex;
+    flex-wrap: wrap;
+
+    .v-list-item{
+      flex-basis: 50%;
+      
+    }
+
+    .v-list-subheader{
+      flex: 0 0 100%;
+      padding: 20px 0;
+    }
+  }
+}
+:deep(.primary-rail.v-navigation-drawer--bottom){
+  .v-list {
+    display: flex;
+    flex-wrap: wrap;
+
+    .v-list-item{
+      flex-basis: 20%;
+      justify-content: center;
+    }
+  }
+}
+
+// @media #{map-get($display-breakpoints, 'sm-and-down')} {
+//     .custom-class {
+//         display: block;
+//     }
+// }
+</style>
