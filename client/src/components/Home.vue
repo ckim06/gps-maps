@@ -7,6 +7,7 @@ import DeviceList from './DeviceList.vue'
 const store = useAppStore()
 let dataReady = ref(false)
 let clickedDevice = ref(null)
+let selectedRail = ref('devices')
 
 onMounted(async () => {
   await store.fetchDevices()
@@ -23,7 +24,7 @@ const onListClick = (device) => {
   clickedDevice.value = device
 }
 
-const  onToggleVisibility = async (device) => {
+const onToggleVisibility = async (device) => {
   device.device_ui_settings.is_hidden = !device.device_ui_settings.is_hidden
   const resp = await store.saveDevice(device)
 }
@@ -37,14 +38,26 @@ const  onToggleVisibility = async (device) => {
       <v-navigation-drawer theme="dark" rail permanent>
         <v-divider></v-divider>
         <v-list nav>
-          <v-list-item prepend-icon="mdi-devices" value="Devices"></v-list-item>
-          <v-list-item prepend-icon="mdi-history" value="History"></v-list-item>
-          <v-list-item prepend-icon="mdi-map-marker" value="Places"></v-list-item>
-          <v-list-item prepend-icon="mdi-bell-outline" value="Alerts"></v-list-item>
-          <v-list-item prepend-icon="mdi-clipboard" value="Reports"></v-list-item>
+          <v-list-item  prepend-icon="mdi-devices" @click="selectedRail = 'devices'" value="Devices"></v-list-item>
+          <v-list-item prepend-icon="mdi-history" @click="selectedRail = 'history'" value="History"></v-list-item>
+          <v-list-item prepend-icon="mdi-map-marker" @click="selectedRail = 'places'" value="Places"></v-list-item>
+          <v-list-item prepend-icon="mdi-bell-outline" @click="selectedRail = 'alerts'" value="Alerts"></v-list-item>
+          <v-list-item prepend-icon="mdi-clipboard" @click="selectedRail = 'reports'" value="Reports"></v-list-item>
         </v-list>
       </v-navigation-drawer>
-      <DeviceList :v-if="dataReady" :devices="getDevices" @listClick="onListClick" @toggleVisibility="onToggleVisibility"></DeviceList>
+      <v-navigation-drawer app permanent>
+        <v-list v-if="selectedRail === 'devices'">
+          <DeviceList :devices="getDevices" @listClick="onListClick" @toggleVisibility="onToggleVisibility"></DeviceList>
+        </v-list>
+ 
+        <v-list v-if="selectedRail === 'history'"><h3>History</h3>Out of scope</v-list>
+        <v-list v-if="selectedRail === 'places'"><h3>Places</h3>Out of scope</v-list>
+        <v-list v-if="selectedRail === 'alerts'"><h3>Alerts</h3>Out of scope</v-list>
+        <v-list v-if="selectedRail === 'reports'"><h3>Reports</h3>Out of scope</v-list>
+
+      </v-navigation-drawer>
+
+   
       <v-main>
         <GoogleMap :markers="getMarkers" :deviceFromList="clickedDevice">
         </GoogleMap>
@@ -52,3 +65,7 @@ const  onToggleVisibility = async (device) => {
     </v-layout>
   </v-card>
 </template>
+<style scoped>
+.v-list {
+    padding: 0;
+}</style>
