@@ -1,19 +1,18 @@
 
 <script setup>
-import { useAppStore } from '@/store/app';
+import { useAppStore } from '@/store/app'
 import EditableField from './EditableField.vue'
-const store = useAppStore();
+const store = useAppStore()
 
 const props = defineProps({
     device: Object,
 })
 const emit = defineEmits(['save'])
 
-const onSaveDeviceNotes = (value) => {
+const onSaveDeviceNotes = async (value) => {
     const device = props.device
     device.device_ui_settings.notes = value
-    const resp = store.saveDevice(device);
-
+    const resp = await store.saveDevice(device)
 }
 
 </script>

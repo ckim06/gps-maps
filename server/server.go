@@ -35,7 +35,7 @@ type Device struct {
 	Device_ui_settings           DeviceSettings `json:"device_ui_settings"`
 }
 type DeviceSettings struct {
-	Is_visible  bool   `json:"is_visible"`
+	Is_hidden   bool   `json:"is_hidden"`
 	Notes       string `json:"notes"`
 	PhoneNumber string `json:"phone_number"`
 }
