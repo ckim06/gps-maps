@@ -73,7 +73,7 @@ const onToggleVisibility = async (device) => {
       </v-list>
     </v-navigation-drawer>
     <v-navigation-drawer class="secondary-nav-drawer" app :location="mdAndDown ? 'bottom' : 'start'">
-      <v-list v-if="selectedRail === 'devices'">
+      <v-list lines="two" v-if="selectedRail === 'devices'">
         <DeviceList :devices="getDevices" @listClick="onListClick" :highlightedDevice="highlightedDevice"
           @toggleVisibility="onToggleVisibility"></DeviceList>
       </v-list>

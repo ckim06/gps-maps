@@ -59,8 +59,8 @@ watch(() => props.showFitCenterBtn, (currentValue) => {
 
 </script>
 <template>
-    <v-snackbar v-model="showFitCenterBtnLocal" timeout="2000">
-        <v-btn variant="text" @click="fitMarkerBounds">Recenter around visible devices </v-btn>
+    <v-snackbar v-model="showFitCenterBtnLocal" timeout="5000">
+        <v-btn variant="text" @click="fitMarkerBounds" class="text-decoration-underline">Recenter around visible devices? </v-btn>
 
         <template v-slot:actions>
             <v-btn icon="mdi-close" variant="text" @click="showFitCenterBtnLocal = false">
