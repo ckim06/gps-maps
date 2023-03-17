@@ -4,7 +4,7 @@
 import { computed, ref, watch } from 'vue'
 const props = defineProps({
     devices: Object,
-    highlightedDevice:Object
+    highlightedDevice: Object
 })
 let highlightedDeviceLocal = ref(null)
 const emit = defineEmits(['listClick', 'toggleVisibility'])
@@ -26,16 +26,16 @@ watch(() => props.highlightedDevice, (currentValue) => {
 
 </script>
 <template>
-    <v-list-item :class="{
+    <v-list-item :active="d.device_id === highlightedDeviceLocal?.device_id" :class="{
         'stripe-red': d.latest_accurate_device_point.device_state.drive_status === 'off',
         'stripe-yellow': d.latest_accurate_device_point.device_state.drive_status === 'idle',
         'stripe-green': d.latest_accurate_device_point.device_state.drive_status !== 'off' && d.latest_accurate_device_point.device_state.drive_status !== 'idle',
-        'highlighted' : d.device_id === highlightedDeviceLocal?.device_id
-    }" v-for="d in getOnlineDevices" :prepend-avatar="d.user_avatar" :value="d.device_id"
-        @click="emit('listClick', d)" :subtitle="d.latest_accurate_device_point.device_state.drive_status">
+
+    }" v-for="d in getOnlineDevices" :prepend-avatar="d.user_avatar" :value="d.device_id" @click="emit('listClick', d)"
+        :subtitle="d.latest_accurate_device_point.device_state.drive_status">
         <template v-slot:title>
             {{ d.display_name }}
-            
+
             <v-btn :icon="d.device_ui_settings.is_hidden ? 'mdi-eye-off' : 'mdi-eye'" size="small"
                 @click.stop="emit('toggleVisibility', d)" variant="plain"></v-btn>
         </template>
@@ -47,8 +47,6 @@ watch(() => props.highlightedDevice, (currentValue) => {
     </v-list-item>
 </template>
 <style scoped>
-
-
 .stripe-red {
     border-left: #bb1e10 5px solid;
 }
@@ -59,8 +57,5 @@ watch(() => props.highlightedDevice, (currentValue) => {
 
 .stripe-green {
     border-left: #57E964 5px solid;
-}
-.highlighted {
-    background: rgba(0,0,0,.08);
 }
 </style>

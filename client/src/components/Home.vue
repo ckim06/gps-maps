@@ -44,33 +44,31 @@ const onToggleVisibility = async (device) => {
     <v-system-bar>
       <v-icon icon="mdi-menu"></v-icon>
     </v-system-bar>
-    <v-bottom-navigation v-if="mdAndDown">
-      <v-btn @click="selectedRail = 'devices'"><v-icon>mdi-devices</v-icon>DEVICES</v-btn>
-      <v-btn @click="selectedRail = 'history'"><v-icon>mdi-history</v-icon>HISTORY</v-btn>
-      <v-btn @click="selectedRail = 'places'"><v-icon>mdi-map-marker</v-icon>PLACES</v-btn>
-      <v-btn @click="selectedRail = 'alerts'"><v-icon>mdi-bell-outline</v-icon>ALERTS</v-btn>
-      <v-btn @click="selectedRail = 'reports'"><v-icon>mdi-clipboard</v-icon>REPORTS</v-btn>
-    </v-bottom-navigation>
+    <v-theme-provider theme="dark" v-if="mdAndDown">
+      <v-bottom-navigation>
+        <v-btn @click="selectedRail = 'devices'"><v-icon>mdi-devices</v-icon>DEVICES</v-btn>
+        <v-btn @click="selectedRail = 'history'"><v-icon>mdi-history</v-icon>HISTORY</v-btn>
+        <v-btn @click="selectedRail = 'places'"><v-icon>mdi-map-marker</v-icon>PLACES</v-btn>
+        <v-btn @click="selectedRail = 'alerts'"><v-icon>mdi-bell-outline</v-icon>ALERTS</v-btn>
+        <v-btn @click="selectedRail = 'reports'"><v-icon>mdi-clipboard</v-icon>REPORTS</v-btn>
+      </v-bottom-navigation>
+    </v-theme-provider>
     <v-navigation-drawer theme="dark" rail class="primary-rail" v-if="!mdAndDown">
       <v-divider></v-divider>
       <v-list nav>
         <v-list-item prepend-icon="mdi-devices" title="devices" @click="selectedRail = 'devices'"> <v-tooltip
             activator="parent" location="end">DEVICES</v-tooltip></v-list-item>
         <v-list-item prepend-icon="mdi-history" @click="selectedRail = 'history'">
-          <v-tooltip
-            activator="parent" location="end">HISTORY</v-tooltip>
+          <v-tooltip activator="parent" location="end">HISTORY</v-tooltip>
         </v-list-item>
         <v-list-item prepend-icon="mdi-map-marker" @click="selectedRail = 'places'">
-          <v-tooltip
-            activator="parent" location="end">PLACES</v-tooltip>
+          <v-tooltip activator="parent" location="end">PLACES</v-tooltip>
         </v-list-item>
         <v-list-item prepend-icon="mdi-bell-outline" @click="selectedRail = 'alerts'">
-          <v-tooltip
-            activator="parent" location="end">ALERTS</v-tooltip>
+          <v-tooltip activator="parent" location="end">ALERTS</v-tooltip>
         </v-list-item>
         <v-list-item prepend-icon="mdi-clipboard" @click="selectedRail = 'reports'">
-          <v-tooltip
-            activator="parent" location="end">REPORTS</v-tooltip>
+          <v-tooltip activator="parent" location="end">REPORTS</v-tooltip>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>

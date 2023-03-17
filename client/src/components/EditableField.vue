@@ -4,7 +4,7 @@ import { ref, onMounted } from 'vue'
 
 const props = defineProps({
     value: String,
-    emptyMessage:String
+    emptyMessage: String
 })
 const emit = defineEmits(['save'])
 let editable = ref(false)
@@ -28,8 +28,8 @@ const cancel = () => {
 </script>
 <template>
     <div class="textarea-clickable" v-if="!editable" @click="edit">
-        <span :v-if="localValue" >{{ localValue  }}</span>
-        <span class="font-italic" :v-if="!localValue" >{{ emptyMessage  }}</span>
+        <span :v-if="localValue">{{ localValue }}</span>
+        <span class="font-italic" :v-if="!localValue">{{ emptyMessage }}</span>
         <v-btn variant="plain" icon="mdi-pencil"></v-btn>
     </div>
 
@@ -41,7 +41,7 @@ const cancel = () => {
     </v-textarea>
 </template>
 <style scoped>
-.textarea-clickable{
+.textarea-clickable {
     cursor: pointer;
 }
 </style>

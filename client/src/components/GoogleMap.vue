@@ -5,7 +5,7 @@ import DeviceDetails from './DeviceDetails.vue'
 const props = defineProps({
     markers: Object,
     selectedDevice: Object,
-    showFitCenterBtn:Boolean
+    showFitCenterBtn: Boolean
 })
 let mapObj
 const gmap = ref(0)
@@ -77,7 +77,7 @@ watch(() => props.showFitCenterBtn, (currentValue) => {
         fullscreenControl: false
     }" :center="{ lat: 0, lng: 0 }" :zoom="7" ref="gmap" class="map">
         <GMapMarker :key="index" v-for="(marker, index) in getMarkers" :position="marker.latest_accurate_device_point"
-            @click="markerClick(marker)" @closeclick="close(marker.device_id)"  @mouseover="emit('markerOver', marker)">
+            @click="markerClick(marker)" @closeclick="close(marker.device_id)" @mouseover="emit('markerOver', marker)">
             <GMapInfoWindow :closeclick="true" @closeclick="close(marker.device_id)"
                 :opened="openWindows[marker.device_id] ?? false">
                 <div>
