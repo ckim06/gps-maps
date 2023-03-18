@@ -92,21 +92,19 @@ const onToggleVisibility = async (device) => {
       </v-list>
 
     </v-navigation-drawer>
-
-
     <v-main class="h-screen v-screen">
       <GoogleMap :markers="getMarkers" :selectedDevice="clickedDevice" :showFitCenterBtn="showFitCenterBtn"
         @markerOver="onMarkerOver">
       </GoogleMap>
     </v-main>
-
   </v-layout>
 </template>
 <style lang="scss" scoped>
+// cleans up a gap at the top of the navigation list
 .secondary-nav-drawer .v-list {
   padding: 0;
 }
-
+// Show list items in a grid instead of list
 :deep(.secondary-nav-drawer.v-navigation-drawer--bottom) {
   .v-list {
     display: flex;
@@ -114,24 +112,11 @@ const onToggleVisibility = async (device) => {
 
     .v-list-item {
       flex-basis: 50%;
-
     }
 
     .v-list-subheader {
       flex: 0 0 100%;
       padding: 20px 0;
-    }
-  }
-}
-
-:deep(.primary-rail.v-navigation-drawer--bottom) {
-  .v-list {
-    display: flex;
-    flex-wrap: wrap;
-
-    .v-list-item {
-      flex-basis: 20%;
-      justify-content: center;
     }
   }
 }

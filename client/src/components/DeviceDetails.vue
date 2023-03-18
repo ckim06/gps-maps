@@ -9,6 +9,9 @@ const props = defineProps({
 })
 const emit = defineEmits(['save'])
 
+// I debated moving this to home.vue so that all data interactions are in the 
+// same place.  However, since this is embedded in the map, I think this should 
+// stay here.
 const onSaveDeviceNotes = async (value) => {
     const device = props.device
     device.device_ui_settings.notes = value
