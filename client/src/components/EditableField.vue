@@ -4,7 +4,9 @@ import { ref, onMounted } from 'vue'
 
 const props = defineProps({
     value: String,
-    emptyMessage: String
+    emptyMessage: String,
+    rules: Object,
+    title: String
 })
 
 const emit = defineEmits(['save'])
@@ -31,14 +33,16 @@ const cancel = () => {
 
 </script>
 <template>
-    
-        <div class="textarea-clickable" v-if="!editable" @click="edit">
+    <div>
+        <div  class="d-inline text-h5">{{ title }}: &nbsp;</div>
+
+        <div class="d-inline textarea-clickable" v-if="!editable" @click="edit">
             <span v-if="localValue">{{ localValue }}</span>
             <span class="font-italic" v-if="!localValue">{{ emptyMessage }}</span>
             <v-btn variant="plain" icon="mdi-pencil"></v-btn>
         </div>
         <div class="editable-field-wrapper">
-            <v-text-field :loading="loading" hide-details="auto" v-if="editable" v-model="localValue"
+            <v-text-field :rules="rules" :loading="loading" hide-details="auto" v-if="editable" v-model="localValue"
                 variant="solo">
                 <template v-slot:append>
                     <v-btn variant="plain" icon="mdi-check" @click="save"></v-btn>
@@ -46,14 +50,12 @@ const cancel = () => {
                 </template>
             </v-text-field>
         </div>
-   
+    </div>
 </template>
 <style scoped>
 .textarea-clickable {
     cursor: pointer;
 }
 
-.editable-field-wrapper {
-
-}
+.editable-field-wrapper {}
 </style>
