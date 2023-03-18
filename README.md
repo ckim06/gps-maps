@@ -1,4 +1,4 @@
-#server
+# server
 The API KEY for onestepGps should be put into a file in server/keys.ini
 
 To run use
@@ -9,7 +9,7 @@ go run server.go
 
 The backend should be available at http://localhost:8080
 
-#client
+# client
 google map key should go into client/mapkey.ts as and exported value
 
 ```
@@ -22,7 +22,7 @@ eg export default 'GOOGLE_API_KEY'
 The site should then run at http://localhost:3000
 
 
-#Interesting things
+# Interesting things
 
 In the popup that appears when clicking on a map marker, I created a reusable component that can handle both notes and phone numbers. Rules can be passed to the component to check validity.
 
