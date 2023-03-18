@@ -1,12 +1,13 @@
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, watch } from 'vue'
 
 const props = defineProps({
     value: String,
     emptyMessage: String,
     rules: Object,
-    title: String
+    title: String,
+    asYouType: Function
 })
 
 const emit = defineEmits(['save'])
@@ -15,8 +16,9 @@ const localValue = ref('')
 const loading = ref(false)
 const form = ref(0)
 
-onMounted(() => {
-    localValue.value = props.value
+
+watch(() => props.value, (currentValue) => {
+    localValue.value = currentValue
 })
 
 const edit = () => {
@@ -45,7 +47,8 @@ const cancel = () => {
     </div>
     <div class="editable-field-wrapper" v-if="editable">
         <v-form ref="form" @submit.prevent="save">
-            <v-text-field :rules="rules" :loading="loading" v-model="localValue" variant="solo" density="compact">
+            <v-text-field autofocus @keyup="asYouType(localValue)" :rules="rules" :loading="loading" v-model="localValue"
+                variant="solo" density="compact">
                 <template v-slot:append>
                     <v-btn variant="plain" icon="mdi-check" type="submit"></v-btn>
                     <v-btn icon="mdi-cancel" variant="plain" @click="cancel"></v-btn>

@@ -2,12 +2,19 @@
 <script setup>
 import { useAppStore } from '@/store/app'
 import EditableField from './EditableField.vue'
+import { ref } from 'vue'
+import {
+    isValidPhoneNumber,
+    AsYouType
+} from 'libphonenumber-js'
 const store = useAppStore()
 
 const props = defineProps({
     device: Object,
 })
 const emit = defineEmits(['save'])
+
+const phoneNumber = ref(props.device.device_ui_settings.phone_number)
 
 // I debated moving this to home.vue so that all data interactions are in the 
 // same place.  However, since this is embedded in the map, I think this should 
@@ -18,11 +25,14 @@ const onSaveDeviceNotes = async (value) => {
     const resp = await store.saveDevice(device)
 }
 const phoneRules = [
-    (value)=> !! value || 'Enter a phone number', 
+    (value) => !!value || 'Enter a phone number',
     (value) => {
-    const phoneRE = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/im;
-    return phoneRE.test(value) || 'Enter in this format 800-555-1212'
-}]
+        return isValidPhoneNumber(value, 'US') || 'Enter a valid US phone number'
+    }]
+
+const phoneKeyup = (e) => {
+    phoneNumber.value = new AsYouType('US').input(e)
+}
 
 </script>
 <template>
@@ -31,7 +41,7 @@ const phoneRules = [
             :subtitle="device.latest_accurate_device_point.device_state.drive_status">
             <v-card-text>
                 <EditableField title="Phone Number" emptyMessage="Enter Phone Number" :rules="phoneRules"
-                    :value="device.device_ui_settings.phone_number" @save="onSaveDeviceNotes">
+                    :value="phoneNumber" :asYouType="phoneKeyup" @save="onSaveDeviceNotes">
                 </EditableField>
                 <v-spacer class="mb-2"></v-spacer>
                 <EditableField title="Notes" emptyMessage="Enter Notes" :value="device.device_ui_settings.notes"

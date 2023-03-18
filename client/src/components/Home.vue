@@ -8,11 +8,11 @@ import { useDisplay } from 'vuetify'
 
 const { mdAndDown } = useDisplay()
 const store = useAppStore()
-let dataReady = ref(false)
-let clickedDevice = ref(null)
-let selectedRail = ref('devices')
-let showFitCenterBtn = ref(false)
-let highlightedDevice = ref(null)
+const dataReady = ref(false)
+const clickedDevice = ref(null)
+const selectedRail = ref('devices')
+const showFitCenterBtn = ref(false)
+const highlightedDevice = ref(null)
 
 onMounted(async () => {
   await store.fetchDevices()

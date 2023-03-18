@@ -9,8 +9,8 @@ const props = defineProps({
 })
 let mapObj
 const gmap = ref(0)
-let openWindows = ref({})
-let showFitCenterBtnLocal = ref(false);
+const openWindows = ref({})
+const showFitCenterBtnLocal = ref(false);
 
 const emit = defineEmits(['markerOver'])
 
