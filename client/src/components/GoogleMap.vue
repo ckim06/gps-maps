@@ -42,6 +42,13 @@ const close = (deviceId) => {
 }
 const markerClick = (marker) => {
     if (marker) {
+        // close open windows
+        Object.keys(openWindows.value).forEach((deviceId)=>{
+            if(marker.device_id !== deviceId){
+                openWindows.value[deviceId] = false
+            }
+        })
+
         mapObj.setCenter(marker.latest_accurate_device_point)
         mapObj.setZoom(10)
         nextTick(() => {
