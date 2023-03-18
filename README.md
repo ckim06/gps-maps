@@ -1,4 +1,4 @@
-#server
+# server
 The API KEY for onestepGps should be put into a file in server/keys.ini
 
 To run use
@@ -9,7 +9,7 @@ go run server.go
 
 The backend should be available at http://localhost:8080
 
-#client
+# client
 google map key should go into client/mapkey.ts as and exported value
 
 ```
