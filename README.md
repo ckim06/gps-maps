@@ -1,24 +1,27 @@
 # server
 The API KEY for onestepGps should be put into a file in server/keys.ini
 
-To run use
+To run use at the root level of the project.
 
 ```
-go run server.go
+go run server/server.go
 ```
 
 The backend should be available at http://localhost:8080
 
 # client
 google map key should go into client/mapkey.ts as and exported value
-
-```
-client yarn dev
-```
-
 ```
 eg export default 'GOOGLE_API_KEY'
 ```
+
+To run, step into the client directory and run
+
+```
+yarn dev
+```
+
+
 The site should then run at http://localhost:3000
 
 
