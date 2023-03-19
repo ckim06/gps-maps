@@ -1,6 +1,6 @@
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 
 const props = defineProps({
     value: String,
@@ -15,12 +15,17 @@ const editable = ref(false)
 const localValue = ref('')
 const loading = ref(false)
 const form = ref(0)
-
+const asYouTypeLocal = ref(props.asYouType)
 
 watch(() => props.value, (currentValue) => {
     localValue.value = currentValue
 })
 
+onMounted(() => {
+    if (!props.asYouType) {
+        asYouTypeLocal.value = () => { }
+    }
+})
 const edit = () => {
     editable.value = true
 }
@@ -47,7 +52,7 @@ const cancel = () => {
     </div>
     <div class="editable-field-wrapper" v-if="editable">
         <v-form ref="form" @submit.prevent="save">
-            <v-text-field autofocus @keyup="asYouType(localValue)" :rules="rules" :loading="loading" v-model="localValue"
+            <v-text-field autofocus @keyup="asYouTypeLocal(localValue)" :rules="rules" :loading="loading" v-model="localValue"
                 variant="solo" density="compact">
                 <template v-slot:append>
                     <v-btn variant="plain" icon="mdi-check" type="submit"></v-btn>

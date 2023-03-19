@@ -24,11 +24,26 @@ const onSaveDeviceNotes = async (value) => {
     device.device_ui_settings.notes = value
     const resp = await store.saveDevice(device)
 }
+const onSaveDevicePhoneNumber = async (value) => {
+    const device = props.device
+    device.device_ui_settings.phone_number = value
+    const resp = await store.saveDevice(device)
+}
 const phoneRules = [
-    (value) => !!value || 'Enter a phone number',
     (value) => {
-        return isValidPhoneNumber(value, 'US') || 'Enter a valid US phone number'
-    }]
+        if(value){
+            return true
+        }else { 
+            return 'Enter a phone number'
+        }
+    },
+    (value) => {
+        if(isValidPhoneNumber(value, 'US')){
+        return true
+    } else {
+         return 'Enter a valid US phone number'
+    }
+}]
 
 const phoneKeyup = (e) => {
     phoneNumber.value = new AsYouType('US').input(e)
@@ -41,9 +56,10 @@ const phoneKeyup = (e) => {
             :subtitle="device.latest_accurate_device_point.device_state.drive_status">
             <v-card-text>
                 <EditableField title="Phone Number" emptyMessage="Enter Phone Number" :rules="phoneRules"
-                    :value="phoneNumber" :asYouType="phoneKeyup" @save="onSaveDeviceNotes">
+                    :value="phoneNumber" :asYouType="phoneKeyup" @save="onSaveDevicePhoneNumber">
                 </EditableField>
                 <v-spacer class="mb-2"></v-spacer>
+
                 <EditableField title="Notes" emptyMessage="Enter Notes" :value="device.device_ui_settings.notes"
                     @save="onSaveDeviceNotes">
                 </EditableField>
