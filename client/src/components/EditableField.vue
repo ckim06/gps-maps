@@ -17,6 +17,10 @@ const loading = ref(false)
 const form = ref(0)
 const asYouTypeLocal = ref(props.asYouType)
 
+// revert back to this value when canceled clicked.
+// props.value is modified by the parent when asYouType is called
+const initialValue = ref(props.value)
+
 watch(() => props.value, (currentValue) => {
     localValue.value = currentValue
 })
@@ -35,10 +39,12 @@ const save = async () => {
         loading.value = true
         emit("save", localValue.value)
         loading.value = false
+        initialValue.value = localValue.value
         editable.value = false
     }
 }
 const cancel = () => {
+    localValue.value = initialValue.value
     editable.value = false
 }
 
@@ -53,7 +59,7 @@ const cancel = () => {
     <div class="editable-field-wrapper" v-if="editable">
         <v-form ref="form" @submit.prevent="save">
             <v-text-field autofocus @keyup="asYouTypeLocal(localValue)" :rules="rules" :loading="loading" v-model="localValue"
-                variant="solo" density="compact">
+                variant="underlined" density="compact">
                 <template v-slot:append>
                     <v-btn variant="plain" icon="mdi-check" type="submit"></v-btn>
                     <v-btn icon="mdi-cancel" variant="plain" @click="cancel"></v-btn>
