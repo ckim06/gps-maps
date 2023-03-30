@@ -26,6 +26,9 @@ watch(() => props.value, (currentValue) => {
 })
 
 onMounted(() => {
+    if(!localValue.value){
+        localValue.value = props.value
+    }
     if (!props.asYouType) {
         asYouTypeLocal.value = () => { }
     }

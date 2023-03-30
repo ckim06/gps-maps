@@ -65,7 +65,7 @@ watch(() => props.showFitCenterBtn, (currentValue) => {
 })
 
 watch(() => props.markers, (currentValue) => {
-    console.log('marker update')
+    console.log(currentValue)
 })
 
 </script>

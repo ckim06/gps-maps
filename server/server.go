@@ -162,14 +162,24 @@ func (h *deviceHandler) serveWs(w http.ResponseWriter, r *http.Request) {
 	}
 	defer ws.Close()
 	for {
-		for range time.Tick(time.Minute / 2) {
+		for range time.Tick(time.Second * 5) {
 			deviceLocations := make(map[string]Location)
 			devices := getDevices()
 
 			for _, d := range devices {
 				h.store.RLock()
 				storeDevice := h.store.m[d.Device_id]
+
+				// To debug we can can add 1 to the Lat every tick.  Uncomment the block below.
+				// latestLocation := storeDevice.Latest_accurate_device_point
+				// updateLat, _ := latestLocation.Lat.Float64()
+				// updateLat = updateLat + 1.0
+				// latestLocation.Lat = json.Number(strconv.FormatFloat(updateLat, 'f', 14, 64))
+				// storeDevice.Latest_accurate_device_point = latestLocation
+
+				// To debug, also comment the line below out.
 				storeDevice.Latest_accurate_device_point = d.Latest_accurate_device_point
+
 				h.store.m[d.Device_id] = storeDevice
 				h.store.RUnlock()
 
