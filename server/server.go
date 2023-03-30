@@ -221,7 +221,7 @@ func main() {
 		},
 	}
 	mux.Handle("/ws", deviceH)
-	mux.Handle("/devices", deviceH)
+	mux.Handle("/devices/", deviceH)
 
 	fmt.Println("Server running at http://localhost:8080")
 	http.ListenAndServe("localhost:8080", mux)

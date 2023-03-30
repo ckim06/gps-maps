@@ -64,6 +64,10 @@ watch(() => props.showFitCenterBtn, (currentValue) => {
     showFitCenterBtnLocal.value = true
 })
 
+watch(() => props.markers, (currentValue) => {
+    console.log('marker update')
+})
+
 </script>
 <template>
     <v-snackbar v-model="showFitCenterBtnLocal" timeout="5000">

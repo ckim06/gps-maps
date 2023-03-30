@@ -13,6 +13,10 @@ const clickedDevice = ref(null)
 const selectedRail = ref('devices')
 const showFitCenterBtn = ref(false)
 const highlightedDevice = ref(null)
+const connection = new WebSocket("ws://localhost:8080/ws")
+connection.onmessage = (event) => {
+  store.updateLocations(JSON.parse(event.data)) 
+}
 
 onMounted(async () => {
   await store.fetchDevices()

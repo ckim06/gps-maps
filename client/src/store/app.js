@@ -15,6 +15,11 @@ export const useAppStore = defineStore('app', {
     },
   },
   actions: {
+    updateLocations(locationData) {
+      this.devices.forEach((device)=>{
+        device.latest_accurate_device_point = locationData[device.device_id]
+      });
+    },
     async fetchDevices() {
       try {
         const data = await axios.get('http://localhost:8080/devices/')
