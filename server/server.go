@@ -3,18 +3,24 @@ package main
 import (
 	_ "embed"
 	"encoding/json"
+	"time"
+
 	"fmt"
 	"io"
 	"log"
 	"math/rand"
 	"net/http"
+
 	"regexp"
 	"strconv"
 	"sync"
+
+	"github.com/gorilla/websocket"
 )
 
 //go:embed keys.ini
 var apiKey string
+var devicesURL = "https://track.onestepgps.com/v3/api/public/device?latest_point=true&api-key=" + apiKey
 var (
 	listDevicesRe  = regexp.MustCompile(`^\/devices[\/]$`)
 	updateDeviceRe = regexp.MustCompile(`^\/devices\/(.+)$`)
@@ -67,6 +73,9 @@ func (h *deviceHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	case r.Method == http.MethodOptions:
 		w.WriteHeader(http.StatusOK)
+	case r.URL.RequestURI() == "/ws":
+		h.serveWs(w, r)
+		return
 	default:
 		notFound(w, r)
 		return
@@ -143,27 +152,64 @@ func UnmarshalDevices(r *http.Response) []Device {
 	return deviceResponse.Result_list
 }
 
-func main() {
-	mux := http.NewServeMux()
-	devicesResponse, err := http.Get("https://track.onestepgps.com/v3/api/public/device?latest_point=true&api-key=" + apiKey)
+var upgrader = websocket.Upgrader{CheckOrigin: func(r *http.Request) bool { return true }}
+
+func (h *deviceHandler) serveWs(w http.ResponseWriter, r *http.Request) {
+	ws, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		log.Println("upgrade:", err)
+		return
+	}
+	defer ws.Close()
+	for {
+		for range time.Tick(time.Minute / 2) {
+			deviceLocations := make(map[string]Location)
+			devices := getDevices()
+
+			for _, d := range devices {
+				h.store.RLock()
+				storeDevice := h.store.m[d.Device_id]
+				storeDevice.Latest_accurate_device_point = d.Latest_accurate_device_point
+				h.store.m[d.Device_id] = storeDevice
+				h.store.RUnlock()
+
+				deviceLocations[d.Device_id] = storeDevice.Latest_accurate_device_point
+			}
+			jsonBytes, err := json.Marshal(deviceLocations)
+			if err != nil {
+				internalServerError(w, r)
+				return
+			}
+			ws.WriteMessage(1, jsonBytes)
+		}
+	}
+
+}
+
+func getDevices() []Device {
+	devicesResponse, err := http.Get(devicesURL)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	defer devicesResponse.Body.Close()
+	return UnmarshalDevices(devicesResponse)
 
-	devices := UnmarshalDevices(devicesResponse)
-	var mappedDevices = make(map[string]Device)
+}
+
+func main() {
+
+	mux := http.NewServeMux()
+	devices := getDevices()
+	mappedDevices := make(map[string]Device)
 
 	genders := []string{
 		"women",
 		"men",
 	}
 	for _, device := range devices {
-
 		gender := genders[rand.Intn(2)]
-
 		device.User_avatar = "https://randomuser.me/api/portraits/" + gender + "/" + strconv.Itoa(rand.Intn(100)) + ".jpg"
 		mappedDevices[device.Device_id] = device
 	}
@@ -174,8 +220,9 @@ func main() {
 			RWMutex: &sync.RWMutex{},
 		},
 	}
+	mux.Handle("/ws", deviceH)
 	mux.Handle("/devices", deviceH)
-	mux.Handle("/devices/", deviceH)
+
 	fmt.Println("Server running at http://localhost:8080")
 	http.ListenAndServe("localhost:8080", mux)
 }
